@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/themes.dart';
-import 'package:portfolio/utils/widgets/qualifications_widget.dart';
+import 'package:portfolio/widgets/qualifications_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: context.themeData.colorScheme.primary,
         title: Text(widget.title),
       ),
-      body: QualificationWidget(),
+      body: Center(child: QualificationsWidget()),
     );
   }
 }
