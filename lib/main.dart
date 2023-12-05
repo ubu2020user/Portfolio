@@ -71,7 +71,25 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: context.themeData.colorScheme.primary,
         title: Text(widget.title),
       ),
-      body: Center(child: QualificationsWidget()),
+      body: Center(
+          child: QualificationsWidget(
+        educationList: [
+          Qualification(
+              title: "FHDW Fachhochschule der Wirtschaft",
+              description: "Bielefeld - Wirtschaftsinformatik",
+              date: "2020 - 2023")
+        ],
+        workList: [
+          Qualification(
+              title: "Software Engineer",
+              description: "Cologne - Telekom",
+              date: "2020 - 2023"),
+          Qualification(
+              title: "Nada's Flutter Dev",
+              description: "Cologne - Telekom",
+              date: "2020 - 2023")
+        ],
+      )),
     );
   }
 }
