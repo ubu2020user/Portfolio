@@ -490,3 +490,6 @@ FodyWeavers.xsd
 .idea/
 /.idea/
 /.dart_tool/
+*.flutter-plugins
+*.flutter-plugins-dependencies
+*.metadata
