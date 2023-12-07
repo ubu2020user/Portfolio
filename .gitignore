@@ -488,3 +488,5 @@ FodyWeavers.xsd
 *.idea
 .dart_tool/
 .idea/
+/.idea/
+/.dart_tool/
