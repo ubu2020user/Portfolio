@@ -1,0 +1,2 @@
+Artifcatory
+checksum_v1 = 0c553d7f7cf0030ab6c9e4e061bd6732

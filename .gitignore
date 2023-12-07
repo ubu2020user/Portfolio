@@ -483,3 +483,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+*.dart_tool
+*.idea
+.dart_tool/
+.idea/
