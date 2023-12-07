@@ -35,8 +35,6 @@ class QualificationsWidget extends StatelessWidget {
     var isEducation = provider.qualificationPreferences.$1;
     var isWork = provider.qualificationPreferences.$2;
 
-    debugPrint("State change");
-
     List<Qualification> qualificationList = [];
     if (isEducation) {
       qualificationList = educationList;
@@ -49,62 +47,44 @@ class QualificationsWidget extends StatelessWidget {
         ? b.startDate.compareTo(a.startDate)
         : a.startDate.compareTo(b.startDate));
 
-    return SingleChildScrollView(
-      // TODO remove
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Qualification',
-            style: context.textTheme.headlineLarge?.copyWith(),
-          ),
-          space(height: 3),
-          Text(
-            'My personal journey',
-            style: context.textTheme.bodyMedium,
-          ),
-          spacer,
-          spacer,
-          spacer,
-          spacer,
-          spacer,
-          spacer,
-          spacer,
-          EducationWorkChooserWidget(),
-          spacer,
-          spacer,
-          spacer,
-          spacer,
-          ListView.builder(
-            itemCount: qualificationList.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              // todo check alpha feature
-              var isLeft = (index + 1) % 2 != 0;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text('Qualification', style: context.textTheme.headlineLarge),
+        space(height: 3),
+        Text('My personal journey', style: context.textTheme.bodyMedium),
+        space(height: 56),
+        EducationWorkChooserWidget(),
+        space(height: 32),
+        ListView.builder(
+          itemCount: qualificationList.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            // todo check alpha feature
+            var isLeft = (index + 1) % 2 != 0;
 
-              var qualificationWidget = SingleQualificationWidget(
-                  qualification: qualificationList[index],
-                  isLeft: isLeft,
-                  isLast: (index + 1) == qualificationList.length,
-                  width: widthQualification,
-                  marginStick: marginQualificationStick,
-                  isWork: !(isWork && isEducation)
-                      ? null
-                      : workList.contains(qualificationList[index]));
+            var qualificationWidget = SingleQualificationWidget(
+                qualification: qualificationList[index],
+                isLeft: isLeft,
+                isLast: (index + 1) == qualificationList.length,
+                width: widthQualification,
+                marginStick: marginQualificationStick,
+                isWork: !(isWork && isEducation)
+                    ? null
+                    : workList.contains(qualificationList[index]));
 
-              if (isLeft || !isItemScrollable) {
-                return qualificationWidget;
-              } else {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: qualificationWidget,
-                );
-              }
-            },
-          ),
-        ],
-      ),
+            if (isLeft || !isItemScrollable) {
+              return qualificationWidget;
+            } else {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: qualificationWidget,
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }
