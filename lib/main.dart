@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
+import 'package:portfolio/utils/provider/preferences_provider.dart';
 import 'package:portfolio/utils/themes.dart';
-import 'package:portfolio/widgets/qualifications_widget.dart';
+import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
+import 'package:portfolio/widgets/qualification/qualifications_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => PreferencesProvider(),
+    )
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  Future loadData(BuildContext context) async {
+    context.providerPreferences.init(await SharedPreferences.getInstance());
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: PortfolioThemes.themeData(),
-      darkTheme: PortfolioThemes.themeData(brightness: Brightness.dark),
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return FutureBuilder(
+      future: loadData(context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Material(child: Center(child: CircularProgressIndicator()));
+        }
+
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: PortfolioThemes.themeData(),
+          darkTheme: PortfolioThemes.themeData(brightness: Brightness.dark),
+          themeMode: ThemeMode.system,
+          debugShowCheckedModeBanner: false,
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      },
     );
   }
 }
@@ -73,21 +94,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
           child: QualificationsWidget(
+        isDescending: true,
+        widthQualification: 200,
+        marginQualificationStick: 30,
         educationList: [
           Qualification(
-              title: "FHDW Fachhochschule der Wirtschaft",
-              description: "Bielefeld - Wirtschaftsinformatik",
-              date: "2020 - 2023")
+            title: "FHD3W Fachhochschule der Wirtschaft",
+            description: "Bielefeld - Wirtschaftsinformatik",
+            startDate: DateTime(2020),
+            endDate: DateTime(2023),
+          )
         ],
         workList: [
           Qualification(
-              title: "Software Engineer",
-              description: "Cologne - Telekom",
-              date: "2020 - 2023"),
+            title: "Software Engineer",
+            description: "Cologne - Telekom",
+            startDate: DateTime(2020),
+          ),
           Qualification(
-              title: "Nada's Flutter Dev",
-              description: "Cologne - Telekom",
-              date: "2020 - 2023")
+            title: "Nada's Flutter Dev",
+            description: "Cologne - Telekom",
+            startDate: DateTime(2021),
+          )
         ],
       )),
     );
