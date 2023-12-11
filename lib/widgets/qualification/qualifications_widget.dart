@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/utils/provider/preferences_provider.dart';
+import 'package:portfolio/widgets/others/caption_widget.dart';
 import 'package:portfolio/widgets/qualification/education_work_chooser_widget.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/single_qualification_widget.dart';
@@ -51,10 +52,10 @@ class QualificationsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Qualification', style: context.textTheme.headlineLarge),
-        space(height: 3),
-        Text('My personal journey', style: context.textTheme.bodyMedium),
-        space(height: 56),
+        const CaptionWidget(
+          title: 'Qualification',
+          subTitle: 'My personal journey',
+        ),
         EducationWorkChooserWidget(),
         space(height: 32),
         ListView.builder(
