@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
+import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/utils/provider/preferences_provider.dart';
 import 'package:portfolio/utils/themes.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
@@ -65,29 +66,64 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: TestimonialCarouselWidget(
-        testimonials: [
-          Testimonial(
-            name: "Nada",
-            designation: "CTO",
-            description:
-                "As CEO of a company, I am very satisfied with the work of the team. They are very professional and have a great sense of design. I will continue to work with them in the future.",
-            isFemale: true,
-          ),
-          Testimonial(
-            name: "Simon",
-            designation: "Founder of Ellipso StartUp",
-            description:
-                "I've been in design for 5 years. I'm very satisfied with the work of the team. They are very professional and have a great sense of design. I will continue to work with them in the future.",
-            isFemale: false,
-          ),
-          Testimonial(
-            name: "Daniel",
-            designation: "The Fonder",
-            description: "Creating great stuff scrr",
-          ),
-        ],
-      )),
+        child: ListView.separated(
+          itemCount: listWidgets.length,
+          itemBuilder: (context, index) => listWidgets[index],
+          separatorBuilder: (context, index) => space(height: 70),
+        ),
+      ),
     );
   }
+
+  List<Widget> listWidgets = [
+    SizedBox(),
+    QualificationsWidget(
+      isDescending: true,
+      widthQualification: 200,
+      marginQualificationStick: 30,
+      educationList: [
+        Qualification(
+          title: "FHD3W Fachhochschule der Wirtschaft",
+          description: "Bielefeld - Wirtschaftsinformatik",
+          startDate: DateTime(2020),
+          endDate: DateTime(2023),
+        )
+      ],
+      workList: [
+        Qualification(
+          title: "Software Engineer",
+          description: "Cologne - Telekom",
+          startDate: DateTime(2020),
+        ),
+        Qualification(
+          title: "Nada's Flutter Dev",
+          description: "Cologne - Telekom",
+          startDate: DateTime(2021),
+        )
+      ],
+    ),
+    TestimonialCarouselWidget(
+      testimonials: [
+        Testimonial(
+          name: "Nada",
+          designation: "CTO",
+          description:
+              "As CEO of a company, I am very satisfied with the work of the team. They are very professional and have a great sense of design. I will continue to work with them in the future.",
+          isFemale: true,
+        ),
+        Testimonial(
+          name: "Simon",
+          designation: "Founder of Ellipso StartUp",
+          description:
+              "I've been in design for 5 years. I'm very satisfied with the work of the team. They are very professional and have a great sense of design. I will continue to work with them in the future.",
+          isFemale: false,
+        ),
+        Testimonial(
+          name: "Daniel",
+          designation: "The Fonder",
+          description: "Creating great stuff scrr",
+        ),
+      ],
+    ),
+  ];
 }

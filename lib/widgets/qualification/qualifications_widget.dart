@@ -62,7 +62,6 @@ class QualificationsWidget extends StatelessWidget {
           itemCount: qualificationList.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            // todo check alpha feature
             var isLeft = (index + 1) % 2 != 0;
 
             var qualificationWidget = SingleQualificationWidget(

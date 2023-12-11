@@ -43,6 +43,7 @@ class TestimonialWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
             child: Text(
               testimonial.description,
+              textAlign: TextAlign.justify,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

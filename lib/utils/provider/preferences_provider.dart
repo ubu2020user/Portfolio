@@ -26,8 +26,6 @@ class PreferencesProvider extends ChangeNotifier {
     preferences.setBool("isEducation", value.$1);
     preferences.setBool("isWork", value.$2);
 
-    debugPrint(value.toString());
-
     notifyListeners();
   }
 }
