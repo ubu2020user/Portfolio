@@ -18,6 +18,8 @@ class CallToActionWidget extends StatelessWidget {
   final String title, description, buttonText;
   final void Function()? onPressed;
 
+  // TODO Edit width..
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width * 0.75;

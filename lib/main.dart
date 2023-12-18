@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
       future: loadData(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return const Material(child: Center(child: CircularProgressIndicator()));
+          return const Material(
+              child: Center(child: CircularProgressIndicator()));
         }
 
         return MaterialApp(
@@ -78,13 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          children: [
-            CallToActionWidget(),
-            AboutMeWidget(onPressed: () {
-
-            },),
-          ],
+        child: ListView.separated(
+          itemCount: listWidgets.length,
+          itemBuilder: (context, index) => listWidgets[index],
+          separatorBuilder: (context, index) => space(height: 70),
         ),
       ),
     );
@@ -92,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> listWidgets = [
     SizedBox(),
-    space(height: 70),
+    AboutMeWidget(
+      onPressed: () {},
+    ),
     QualificationsWidget(
       isDescending: true,
       widthQualification: 200,
@@ -118,7 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     ),
-    space(height: 70),
     TestimonialCarouselWidget(
       testimonials: [
         Testimonial(
@@ -146,5 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     ),
+    CallToActionWidget(onPressed: () {
+    },),
   ];
 }
