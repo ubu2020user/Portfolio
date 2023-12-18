@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PortfolioColors {
-  static const Color primary = Color(0xFF6E57E0);
+  static const Color primary = Color(0xFF6F58E0);
 }
 
 class PortfolioThemes {
-  static ThemeData _themeData({Brightness brightness = Brightness.light}) =>
+  static ThemeData _themeData([Brightness brightness = Brightness.light]) =>
       ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: PortfolioColors.primary, brightness: brightness),
@@ -15,5 +15,15 @@ class PortfolioThemes {
       );
 
   static ThemeData themeData({Brightness brightness = Brightness.light}) =>
-      _themeData(brightness: brightness).copyWith();
+      _themeData(brightness).copyWith(
+        textTheme: _themeData(brightness).textTheme.copyWith(
+              titleLarge: _themeData(brightness).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+              headlineLarge:
+                  _themeData(brightness).textTheme.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+            ),
+      );
 }

@@ -16,39 +16,42 @@ class TestimonialWidget extends StatelessWidget {
       iconPerson = Icon(Icons.person, color: context.colorScheme.tertiary);
     }
 
-    return Card(
-      elevation: 0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            title: Text(testimonial.name),
-            subtitle: Text(testimonial.designation),
-            leading: CircleAvatar(
-              backgroundColor: context.colorScheme.primaryContainer,
-              radius: radius,
-              child: testimonial.href == null
-                  ? iconPerson
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(radius),
-                      child: Image.network(
-                        testimonial.href!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => iconPerson,
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.5,
+      child: Card(
+        elevation: 0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(testimonial.name),
+              subtitle: Text(testimonial.designation),
+              leading: CircleAvatar(
+                backgroundColor: context.colorScheme.primaryContainer,
+                radius: radius,
+                child: testimonial.href == null
+                    ? iconPerson
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(radius),
+                        child: Image.network(
+                          testimonial.href!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => iconPerson,
+                        ),
                       ),
-                    ),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: Text(
-              testimonial.description,
-              textAlign: TextAlign.justify,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              child: Text(
+                testimonial.description,
+                textAlign: TextAlign.justify,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
