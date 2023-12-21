@@ -6,6 +6,9 @@ import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/widgets/others/caption_widget.dart';
 
+import 'experience_model.dart';
+import 'experience_widget.dart';
+
 class AboutMeWidget extends StatelessWidget {
   const AboutMeWidget({
     super.key,
@@ -23,7 +26,8 @@ class AboutMeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width * 0.75;
     double height = 300;
-    var photoWidth = 250;
+
+    double spacerWidth = width / 25; // todo dynamic
 
     List<Experience> experiences = [
       Experience(experience: "08+", description: "Years of Experience"),
@@ -37,10 +41,21 @@ class AboutMeWidget extends StatelessWidget {
       context.colorScheme.primary.withAlpha(200),
     ], begin: Alignment.topLeft, end: Alignment.bottomRight);
 
+    var experiencesList = experiences
+        .expand((element) => [
+              const Expanded(
+                  child: SizedBox(
+                width: 6,
+              )),
+              ExperienceWidget(experience: element)
+            ])
+        .toList()
+      ..removeAt(0);
+
     return Column(
       children: [
         CaptionWidget(title: "About Me", subTitle: introduction),
-        Container(
+        SizedBox(
           width: width,
           height: height,
           child: Row(
@@ -73,15 +88,9 @@ class AboutMeWidget extends StatelessWidget {
                     Container(
                       height: 80,
                       alignment: Alignment.center,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) =>
-                              ExperienceWidget(experience: experiences[index]),
-                          separatorBuilder: (context, index) =>
-                              space(width: 70),
-                          itemCount: experiences.length),
+                      child: Row(children: experiencesList),
                     ),
-                    Expanded(child: SizedBox()),
+                    const Expanded(child: SizedBox()),
                     Buttons.roundedButton(
                       context,
                       text: buttonText,
@@ -97,45 +106,6 @@ class AboutMeWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class Experience {
-  final String experience, description;
-
-  Experience({required this.experience, required this.description});
-}
-
-/// Experience Widget
-/// Experience(experience: "08+", description: "Years of Experience"),
-class ExperienceWidget extends StatefulWidget {
-  const ExperienceWidget({super.key, required this.experience});
-
-  final Experience experience;
-
-  @override
-  State<ExperienceWidget> createState() => _ExperienceWidgetState();
-}
-
-class _ExperienceWidgetState extends State<ExperienceWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(widget.experience.experience,
-              style: context.textTheme.titleLarge),
-          Text(
-            widget.experience.description,
-            style: context.textTheme.bodySmall,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }

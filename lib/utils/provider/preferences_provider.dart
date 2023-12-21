@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesProvider extends ChangeNotifier {
   late SharedPreferences preferences;
+
   void init(SharedPreferences preferences) {
     this.preferences = preferences;
 

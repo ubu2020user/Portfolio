@@ -3,6 +3,16 @@ import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 
 class Buttons {
+  static Widget appBarTextButton(BuildContext context, {String text = "Click Me", void Function()? onPressed, bool isHighlighted = false}) => TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: context.textTheme.titleSmall?.copyWith(
+            color: isHighlighted ? context.colorScheme.primary : context.colorScheme.onBackground,
+          ),
+        ),
+      );
+
   static Widget roundedButton(
     BuildContext context, {
     String text = "Click Me",

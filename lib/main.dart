@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:portfolio/utils/buttons.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/utils/provider/preferences_provider.dart';
+import 'package:portfolio/utils/provider/theme_mode_provider.dart';
 import 'package:portfolio/utils/themes.dart';
-import 'package:portfolio/widgets/about_me_widget.dart';
+import 'package:portfolio/widgets/about_me/about_me_widget.dart';
 import 'package:portfolio/widgets/call_to_action_widget.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:portfolio/widgets/qualification/qualifications_widget.dart';
@@ -24,20 +26,22 @@ void main() {
   };
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => PreferencesProvider(),
-    )
+    ChangeNotifierProvider(create: (context) => PreferencesProvider()),
+    ChangeNotifierProvider(create: (context) => ThemeModeProvider())
   ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final String name = "Daniel";
+
   Future loadData(BuildContext context) async {
-    context.providerPreferences.init(await SharedPreferences.getInstance());
+    var preferences = await SharedPreferences.getInstance();
+    context.providerPreferences.init(preferences);
+    context.providerThemeMode.init(preferences);
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -48,23 +52,29 @@ class MyApp extends StatelessWidget {
               child: Center(child: CircularProgressIndicator()));
         }
 
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: PortfolioThemes.themeData(),
-          darkTheme: PortfolioThemes.themeData(brightness: Brightness.dark),
-          themeMode: ThemeMode.system,
-          debugShowCheckedModeBanner: false,
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        );
+        return Consumer<ThemeModeProvider>(
+            builder: (context, value, child) =>
+                buildOnStateChange(context, value));
       },
+    );
+  }
+
+  Widget buildOnStateChange(BuildContext context, ThemeModeProvider provider) {
+    return MaterialApp(
+      title: "$name's Portfolio",
+      theme: PortfolioThemes.themeData(),
+      darkTheme: PortfolioThemes.themeData(brightness: Brightness.dark),
+      themeMode: provider.isDarkMode == null ? ThemeMode.system : provider.isDarkMode! ? ThemeMode.dark : ThemeMode.light,
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(name: name),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.name});
 
-  final String title;
+  final String name;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -75,21 +85,33 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: context.themeData.colorScheme.primary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: ListView.separated(
-          itemCount: listWidgets.length,
-          itemBuilder: (context, index) => listWidgets[index],
-          separatorBuilder: (context, index) => space(height: 70),
+        backgroundColor: context.themeData.colorScheme.background,
+        title: Row(
+          children: [
+            Text(widget.name, style: context.textTheme.titleSmall),
+            const Expanded(child: SizedBox()),
+            Buttons.appBarTextButton(context, text: "Contact Me",
+                onPressed: () {
+              /*todo*/
+            }),
+            IconButton(
+                onPressed: () => context.providerThemeMode.toggleDarkMode(), icon: const Icon(Icons.dark_mode_outlined))
+          ],
         ),
+      ),
+      body: ListView.separated(
+        shrinkWrap: true,
+        itemCount: listWidgets.length,
+        itemBuilder:
+            (context, index) => /* Not extend everything to screen width */
+                Align(child: listWidgets[index]),
+        separatorBuilder: (context, index) => space(height: 70),
       ),
     );
   }
 
   List<Widget> listWidgets = [
-    SizedBox(),
+    const SizedBox(),
     AboutMeWidget(
       onPressed: () {},
     ),
@@ -145,7 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     ),
-    CallToActionWidget(onPressed: () {
-    },),
+    CallToActionWidget(
+      onPressed: () {},
+    ),
   ];
 }
