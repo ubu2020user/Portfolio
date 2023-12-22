@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/buttons.dart';
+import 'package:portfolio/utils/constants.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/utils/provider/preferences_provider.dart';
@@ -10,6 +13,7 @@ import 'package:portfolio/widgets/about_me/about_me_widget.dart';
 import 'package:portfolio/widgets/call_to_action_widget.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:portfolio/widgets/qualification/qualifications_widget.dart';
+import 'package:portfolio/widgets/side_bar_widget.dart';
 import 'package:portfolio/widgets/testimonial/testimonial_model.dart';
 import 'package:portfolio/widgets/testimonial/testimonial_carousel_widget.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +68,11 @@ class MyApp extends StatelessWidget {
       title: "$name's Portfolio",
       theme: PortfolioThemes.themeData(),
       darkTheme: PortfolioThemes.themeData(brightness: Brightness.dark),
-      themeMode: provider.isDarkMode == null ? ThemeMode.system : provider.isDarkMode! ? ThemeMode.dark : ThemeMode.light,
+      themeMode: provider.isDarkMode == null
+          ? ThemeMode.system
+          : provider.isDarkMode!
+              ? ThemeMode.dark
+              : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: MyHomePage(name: name),
     );
@@ -92,20 +100,33 @@ class _MyHomePageState extends State<MyHomePage> {
             const Expanded(child: SizedBox()),
             Buttons.appBarTextButton(context, text: "Contact Me",
                 onPressed: () {
-              /*todo*/
+              /*todo confirmation dialog */
             }),
             IconButton(
-                onPressed: () => context.providerThemeMode.toggleDarkMode(), icon: const Icon(Icons.dark_mode_outlined))
+                onPressed: () => context.providerThemeMode.toggleDarkMode(),
+                icon: const Icon(Icons.dark_mode_outlined))
           ],
         ),
       ),
-      body: ListView.separated(
-        shrinkWrap: true,
-        itemCount: listWidgets.length,
-        itemBuilder:
-            (context, index) => /* Not extend everything to screen width */
-                Align(child: listWidgets[index]),
-        separatorBuilder: (context, index) => space(height: 70),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: listWidgets.length,
+                itemBuilder: (context,
+                        index) => /* Not extend everything to screen width */
+                    Align(child: listWidgets[index]),
+                separatorBuilder: (context, index) => space(height: 70),
+              ),
+            ),
+          ),
+          SideBarWidget(),
+        ],
       ),
     );
   }
