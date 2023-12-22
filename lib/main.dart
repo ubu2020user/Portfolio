@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
             IconButton(
                 onPressed: () => context.providerThemeMode.toggleDarkMode(),
-                icon: const Icon(Icons.dark_mode_outlined)),
+                icon: Icon((context.providerThemeMode.isDarkMode ?? false) ? Icons.light_mode_outlined : Icons.dark_mode_outlined,)),
 
             IconButton(
                 onPressed: () => showModalBottomSheetSettings(context),
