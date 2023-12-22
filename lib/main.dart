@@ -132,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> listWidgets = [
-    const SizedBox(),
     AboutMeWidget(
       onPressed: () {},
     ),

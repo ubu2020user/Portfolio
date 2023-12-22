@@ -28,7 +28,7 @@ class SideBarWidget extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(Constants.borderRadius),
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,

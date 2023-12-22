@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:portfolio/utils/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 
 import 'experience_model.dart';
@@ -22,7 +23,7 @@ class _ExperienceWidgetState extends State<ExperienceWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(widget.experience.experience,
-              style: context.textTheme.titleLarge),
+              style: isDeviceTypePhone(context) ? context.textTheme.titleMedium : context.textTheme.titleLarge),
           Text(
             widget.experience.description,
             style: context.textTheme.bodySmall,

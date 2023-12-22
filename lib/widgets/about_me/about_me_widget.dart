@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/buttons.dart';
+import 'package:portfolio/utils/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/widgets/others/caption_widget.dart';
@@ -24,22 +25,11 @@ class AboutMeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width * 0.75;
-    double height = 300;
-
-    double spacerWidth = width / 25; // todo dynamic
-
     List<Experience> experiences = [
       Experience(experience: "08+", description: "Years of Experience"),
       Experience(experience: "08+", description: "Years of Experience"),
       Experience(experience: "08+", description: "Years of Experience"),
     ];
-
-    double padding = 32;
-    var gradient = LinearGradient(colors: [
-      context.colorScheme.primary,
-      context.colorScheme.primary.withAlpha(200),
-    ], begin: Alignment.topLeft, end: Alignment.bottomRight);
 
     var experiencesList = experiences
         .expand((element) => [
@@ -52,55 +42,149 @@ class AboutMeWidget extends StatelessWidget {
         .toList()
       ..removeAt(0);
 
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: Column(
+        children: [
+          CaptionWidget(title: "About Me", subTitle: introduction),
+          getDeviceType(context) == DeviceType.Tablet
+              ? _AboutMeContentTablet(
+                  description: description,
+                  buttonText: buttonText,
+                  experiencesList: experiencesList,
+                  onPressed: onPressed,
+                )
+              : _AboutMeContentPhone(
+                  description: description,
+                  buttonText: buttonText,
+                  onPressed: onPressed,
+                  experiencesList: experiencesList,
+                ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AboutMeContentPhone extends StatelessWidget {
+  const _AboutMeContentPhone(
+      {super.key,
+      required this.description,
+      required this.buttonText,
+      required this.experiencesList, this.onPressed});
+
+  final String description, buttonText;
+  final List<Widget> experiencesList;
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CaptionWidget(title: "About Me", subTitle: introduction),
-        SizedBox(
-          width: width,
-          height: height,
-          child: Row(
+        Container(
+          width: MediaQuery.of(context).size.width * 0.5,
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.asset(
+              "assets/avatar/straight.jpg",
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        space(height: 24),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+          child: Text(
+            description,
+            style: context.textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        space(height: 16),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: Container(
+            height: 80,
+            alignment: Alignment.center,
+            child: Row(children: experiencesList),
+          ),
+        ),
+        space(height: 32),
+        Buttons.roundedButton(
+          context,
+          onPressed: onPressed,
+          text: buttonText,
+          color: context.colorScheme.onPrimary,
+          backgroundColor: context.colorScheme.primary,
+          iconData: Icons.file_download_outlined,
+        )
+      ],
+    );
+  }
+}
+
+class _AboutMeContentTablet extends StatelessWidget {
+  const _AboutMeContentTablet(
+      {super.key,
+      required this.description,
+      required this.buttonText,
+      required this.experiencesList,
+      this.onPressed});
+
+  final String description, buttonText;
+  final List<Widget> experiencesList;
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          height: MediaQuery.of(context).size.height * 0.4,
+          width:
+              MediaQuery.of(context).size.width * 0.4, // width / 2 - padding,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.asset(
+              "assets/avatar/straight.jpg",
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Expanded(child: SizedBox()),
+        Container(
+          alignment: Alignment.centerLeft,
+          height: MediaQuery.of(context).size.height * 0.3,
+          width:
+          MediaQuery.of(context).size.width * 0.5, //width / 2 - padding,
+          child: Column(
             children: [
               Container(
-                alignment: Alignment.centerLeft,
-                height: height,
-                width: width / 2 - padding,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    "assets/avatar/straight.jpg",
-                    fit: BoxFit.cover,
-                  ),
+                child: Text(
+                  description,
+                  style: context.textTheme.bodyLarge,
+                  textAlign: TextAlign.justify,
                 ),
               ),
-              Expanded(child: SizedBox()),
+              const Expanded(child: SizedBox()),
               Container(
-                alignment: Alignment.centerLeft,
-                height: height,
-                width: width / 2 - padding,
-                child: Column(
-                  children: [
-                    Text(
-                      description,
-                      style: context.textTheme.bodyLarge,
-                      textAlign: TextAlign.justify,
-                    ),
-                    Expanded(child: SizedBox()),
-                    Container(
-                      height: 80,
-                      alignment: Alignment.center,
-                      child: Row(children: experiencesList),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    Buttons.roundedButton(
-                      context,
-                      text: buttonText,
-                      onPressed: onPressed,
-                      color: context.colorScheme.onPrimary,
-                      backgroundColor: context.colorScheme.primary,
-                      iconData: Icons.file_download_outlined,
-                    ),
-                  ],
-                ),
+                height: 80,
+                alignment: Alignment.center,
+                child: Row(children: experiencesList),
+              ),
+              const Expanded(child: SizedBox()),
+              Buttons.roundedButton(
+                context,
+                text: buttonText,
+                onPressed: onPressed,
+                color: context.colorScheme.onPrimary,
+                backgroundColor: context.colorScheme.primary,
+                iconData: Icons.file_download_outlined,
               ),
             ],
           ),

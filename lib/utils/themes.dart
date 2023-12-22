@@ -20,6 +20,13 @@ class PortfolioThemes {
               titleLarge: _themeData(brightness).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
+              titleMedium:
+                  _themeData(brightness).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+              titleSmall: _themeData(brightness).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
               headlineLarge:
                   _themeData(brightness).textTheme.headlineLarge?.copyWith(
                         fontWeight: FontWeight.w600,
