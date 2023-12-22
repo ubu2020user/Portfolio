@@ -14,6 +14,7 @@ import 'package:portfolio/widgets/call_to_action_widget.dart';
 import 'package:portfolio/widgets/footer_widget.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:portfolio/widgets/qualification/qualifications_widget.dart';
+import 'package:portfolio/widgets/settings_modal.dart';
 import 'package:portfolio/widgets/side_bar_widget.dart';
 import 'package:portfolio/widgets/testimonial/testimonial_model.dart';
 import 'package:portfolio/widgets/testimonial/testimonial_carousel_widget.dart';
@@ -105,7 +106,11 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
             IconButton(
                 onPressed: () => context.providerThemeMode.toggleDarkMode(),
-                icon: const Icon(Icons.dark_mode_outlined))
+                icon: const Icon(Icons.dark_mode_outlined)),
+
+            IconButton(
+                onPressed: () => showModalBottomSheetSettings(context),
+                icon: const Icon(Icons.space_dashboard_outlined))
           ],
         ),
       ),
