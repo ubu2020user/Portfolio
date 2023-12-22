@@ -11,6 +11,7 @@ import 'package:portfolio/utils/provider/theme_mode_provider.dart';
 import 'package:portfolio/utils/themes.dart';
 import 'package:portfolio/widgets/about_me/about_me_widget.dart';
 import 'package:portfolio/widgets/call_to_action_widget.dart';
+import 'package:portfolio/widgets/footer_widget.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:portfolio/widgets/qualification/qualifications_widget.dart';
 import 'package:portfolio/widgets/side_bar_widget.dart';
@@ -188,5 +189,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     ),
+    const FooterWidget(),
   ];
 }
