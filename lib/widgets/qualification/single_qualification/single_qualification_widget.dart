@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/utils/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
@@ -14,31 +15,35 @@ class SingleQualificationWidget extends StatelessWidget {
     this.isLast = false,
     this.isWork = null,
     this.dateFormat,
-    this.width = 200,
-    this.marginStick = 20,
   });
 
   final Qualification qualification;
   final bool isLeft, isLast;
   final bool? isWork;
-  final double width, marginStick;
 
   DateFormat? dateFormat;
 
   @override
   Widget build(BuildContext context) {
     dateFormat ??= DateFormat("yyyy");
+    double width = isDeviceTypePhone(context) ? MediaQuery.of(context).size.width * 0.7 : 200;
+    double marginStick = width / 10;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        !isLeft ? Container(width: width, height: 30) : SizedBox(),
-        !isLeft ? Container(width: marginStick) : SizedBox(),
-        !isLeft ? Container(width: marginStick) : SizedBox(),
-        !isLeft ? _CircleStickWidget(isLast: isLast) : SizedBox(),
-        Container(width: marginStick),
-        Container(
+        ...switch (isDeviceTypePhone(context)) {
+          true => [],
+          _ => [
+              !isLeft ? SizedBox(width: width, height: 30) : const SizedBox(),
+              !isLeft ? Container(width: marginStick) : const SizedBox(),
+              !isLeft ? Container(width: marginStick) : const SizedBox(),
+              !isLeft ? _CircleStickWidget(isLast: isLast) : const SizedBox(),
+            Container(width: marginStick),
+            ],
+        },
+        SizedBox(
           width: width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,16 +52,16 @@ class SingleQualificationWidget extends StatelessWidget {
               Row(
                 children: [
                   isWork == null
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Icon(!isWork!
                           ? Icons.school_outlined
                           : Icons.work_outline_outlined),
-                  isWork == null ? SizedBox() : spacer,
-                  Container(
+                  isWork == null ? const SizedBox() : spacer,
+                  SizedBox(
                     width: width - (isWork == null ? 0 : 32), // icon size
                     child: Text(
                       qualification.title,
-                      style: context.textTheme.titleMedium,
+                      style: context.textTheme.titleSmall,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -66,7 +71,7 @@ class SingleQualificationWidget extends StatelessWidget {
               space(height: 1),
               Text(
                 qualification.description,
-                style: context.textTheme.bodyMedium,
+                style: context.textTheme.bodySmall,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -75,7 +80,7 @@ class SingleQualificationWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.calendar_month_outlined),
+                  const Icon(Icons.calendar_month_outlined),
                   spacer,
                   RichText(
                     text: TextSpan(
@@ -98,10 +103,17 @@ class SingleQualificationWidget extends StatelessWidget {
             ],
           ),
         ),
-        isLeft ? Container(width: marginStick) : SizedBox(),
-        isLeft ? _CircleStickWidget(isLast: isLast) : SizedBox(),
-        isLeft ? Container(width: marginStick) : SizedBox(),
-        isLeft ? Container(width: width, height: 30) : SizedBox(),
+        ...(switch (isDeviceTypePhone(context)) {
+          true => [
+            isLeft ? Container(width: marginStick) : const SizedBox(),
+            isLeft ? _CircleStickWidget(isLast: isLast) : const SizedBox(),],
+          _ => [
+              isLeft ? Container(width: marginStick) : const SizedBox(),
+              isLeft ? _CircleStickWidget(isLast: isLast) : const SizedBox(),
+              isLeft ? Container(width: marginStick) : const SizedBox(),
+              isLeft ? SizedBox(width: width, height: 30) : const SizedBox(),
+            ]
+        })
       ],
     );
   }
@@ -114,6 +126,7 @@ class _CircleStickWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double stickHeight = isDeviceTypePhone(context) ? 85 : 70;
     return Column(
       children: [
         Column(
@@ -128,10 +141,10 @@ class _CircleStickWidget extends StatelessWidget {
               ),
             ),
             isLast
-                ? SizedBox()
+                ? const SizedBox()
                 : Container(
                     width: 0.5,
-                    height: 70,
+                    height: stickHeight,
                     color: context.colorScheme.primary,
                   ),
           ],

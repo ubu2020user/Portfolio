@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/utils/constants.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/widgets/testimonial/testimonial_model.dart';
 
@@ -17,7 +18,10 @@ class TestimonialWidget extends StatelessWidget {
     }
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.5,
+      constraints: const BoxConstraints(
+        maxWidth: Constants.tabletRowWidth,
+      ),
+      width: MediaQuery.of(context).size.width * 0.8,
       child: Card(
         elevation: 0,
         child: Column(

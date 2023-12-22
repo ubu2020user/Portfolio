@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemBuilder: (context,
                         index) => /* Not extend everything to screen width */
                     Align(child: listWidgets[index]),
-                separatorBuilder: (context, index) => space(height: 70),
+                separatorBuilder: (context, index) => space(height: 90),
               ),
             ),
           ),
@@ -137,8 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     QualificationsWidget(
       isDescending: true,
-      widthQualification: 200,
-      marginQualificationStick: 30,
       educationList: [
         Qualification(
           title: "FHD3W Fachhochschule der Wirtschaft",
@@ -159,6 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
           startDate: DateTime(2021),
         )
       ],
+    ),
+    CallToActionWidget(
+      onPressed: () {},
     ),
     TestimonialCarouselWidget(
       testimonials: [
@@ -186,9 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
               "https://cdn.vox-cdn.com/thumbor/HEeDWCewhBlypxLbbYbkBfmDc6w=/0x0:1080x718/1200x800/filters:focal(477x288:649x460)/cdn.vox-cdn.com/uploads/chorus_image/image/71263353/300017093_10114630004939621_5854109382330704814_n.0.jpg",
         ),
       ],
-    ),
-    CallToActionWidget(
-      onPressed: () {},
     ),
   ];
 }

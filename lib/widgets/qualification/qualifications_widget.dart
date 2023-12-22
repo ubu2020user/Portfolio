@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:portfolio/utils/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
 import 'package:portfolio/utils/provider/preferences_provider.dart';
@@ -13,15 +14,11 @@ class QualificationsWidget extends StatelessWidget {
     super.key,
     required this.workList,
     required this.educationList,
-    this.widthQualification = 200,
-    this.marginQualificationStick = 20,
     this.isItemScrollable = false,
     this.isDescending = false,
   });
 
   final List<Qualification> workList, educationList;
-
-  final double widthQualification, marginQualificationStick;
 
   final bool isItemScrollable, isDescending;
 
@@ -48,6 +45,8 @@ class QualificationsWidget extends StatelessWidget {
         ? b.startDate.compareTo(a.startDate)
         : a.startDate.compareTo(b.startDate));
 
+    double widthQualification = 100, marginQualificationStick = 20;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,16 +62,16 @@ class QualificationsWidget extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (context, index) {
             var isLeft = (index + 1) % 2 != 0;
+            if (isDeviceTypePhone(context)) isLeft = true;
 
             var qualificationWidget = SingleQualificationWidget(
-                qualification: qualificationList[index],
-                isLeft: isLeft,
-                isLast: (index + 1) == qualificationList.length,
-                width: widthQualification,
-                marginStick: marginQualificationStick,
-                isWork: !(isWork && isEducation)
-                    ? null
-                    : workList.contains(qualificationList[index]));
+              qualification: qualificationList[index],
+              isLeft: isLeft,
+              isLast: (index + 1) == qualificationList.length,
+              isWork: !(isWork && isEducation)
+                  ? null
+                  : workList.contains(qualificationList[index]),
+            );
 
             if (isLeft || !isItemScrollable) {
               return qualificationWidget;

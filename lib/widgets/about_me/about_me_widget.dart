@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/buttons.dart';
+import 'package:portfolio/utils/constants.dart';
 import 'package:portfolio/utils/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/utils/globals.dart';
@@ -71,7 +70,8 @@ class _AboutMeContentPhone extends StatelessWidget {
       {super.key,
       required this.description,
       required this.buttonText,
-      required this.experiencesList, this.onPressed});
+      required this.experiencesList,
+      this.onPressed});
 
   final String description, buttonText;
   final List<Widget> experiencesList;
@@ -142,12 +142,17 @@ class _AboutMeContentTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          alignment: Alignment.centerLeft,
+          constraints: const BoxConstraints(
+            maxWidth: Constants.tabletRowWidth / 2 - 75,
+            maxHeight: Constants.tabletRowHeight,
+          ),
+          alignment: Alignment.centerRight,
           height: MediaQuery.of(context).size.height * 0.4,
-          width:
-              MediaQuery.of(context).size.width * 0.4, // width / 2 - padding,
+          width: MediaQuery.of(context).size.width * 0.4,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
@@ -156,12 +161,22 @@ class _AboutMeContentTablet extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(child: SizedBox()),
         Container(
+          constraints: const BoxConstraints(
+            maxWidth: 75,
+            maxHeight: 10,
+          ),
+          width: MediaQuery.of(context).size.width * 0.1,
+        ),
+        Container(
+          constraints: const BoxConstraints(
+            maxWidth: Constants.tabletRowWidth / 2 - 75,
+            maxHeight: Constants.tabletRowHeight,
+          ),
           alignment: Alignment.centerLeft,
           height: MediaQuery.of(context).size.height * 0.3,
-          width:
-          MediaQuery.of(context).size.width * 0.5, //width / 2 - padding,
+          width: MediaQuery.of(context).size.width * 0.4,
+          //width / 2 - padding,
           child: Column(
             children: [
               Container(
