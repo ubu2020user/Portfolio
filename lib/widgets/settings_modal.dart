@@ -15,8 +15,7 @@ void showModalBottomSheetSettings(BuildContext context) => showModalBottomSheet(
                 context,
                 text: "Third Party Notices",
                 iconCodePoint: Icons.info_outline.codePoint,
-                color: context.colorScheme.onPrimary,
-                backgroundColor: context.colorScheme.primary,
+                isPrimary: false, 
                 onPressed: () {
                   showLicensePage(context: context);
                 },
