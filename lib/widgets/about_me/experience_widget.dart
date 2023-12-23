@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:portfolio/utils/device_type.dart';
+import 'package:portfolio/utils/globals/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 
 import 'experience_model.dart';

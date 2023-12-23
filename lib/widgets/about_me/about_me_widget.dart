@@ -1,63 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/buttons.dart';
-import 'package:portfolio/utils/constants.dart';
-import 'package:portfolio/utils/device_type.dart';
+import 'package:portfolio/utils/globals/buttons.dart';
+import 'package:portfolio/utils/globals/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import 'package:portfolio/utils/globals/open_url_dialog.dart';
 import 'package:portfolio/widgets/others/caption_widget.dart';
 
-import 'experience_model.dart';
+import '../../utils/globals/constants.dart';
+import '../../utils/globals/globals.dart';
+import 'about_me_model.dart';
 import 'experience_widget.dart';
 
 class AboutMeWidget extends StatelessWidget {
-  const AboutMeWidget({
-    super.key,
-    this.description =
-        "Web developer, with extensive knowledge and years of experience, working in web technologies and Ui / Ux design, delivering quality work.",
-    this.introduction = "FullStack Development Teacher",
-    this.buttonText = "Download CV",
-    this.onPressed,
-  });
+  const AboutMeWidget({super.key, required this.model});
 
-  final String description, introduction, buttonText;
-  final void Function()? onPressed;
+  final AboutMeModel model;
 
   @override
   Widget build(BuildContext context) {
-    List<Experience> experiences = [
-      Experience(experience: "08+", description: "Years of Experience"),
-      Experience(experience: "08+", description: "Years of Experience"),
-      Experience(experience: "08+", description: "Years of Experience"),
-    ];
+    // List<Experience> experiences = [
+    //   Experience(experience: "08+", description: "Years of Experience"),
+    //   Experience(experience: "08+", description: "Years of Experience"),
+    //   Experience(experience: "08+", description: "Years of Experience"),
+    // ];
 
-    var experiencesList = experiences
-        .expand((element) => [
-              const Expanded(
-                  child: SizedBox(
-                width: 6,
-              )),
-              ExperienceWidget(experience: element)
-            ])
-        .toList()
-      ..removeAt(0);
+    var experiencesWidgetList = <Widget>[];
+    if (model.experiences != null && model.experiences!.isNotEmpty) {
+      experiencesWidgetList = model.experiences!
+          .expand((element) => [
+                const Expanded(child: SizedBox(width: 6)),
+                ExperienceWidget(experience: element)
+              ])
+          .toList()
+        ..removeAt(0);
+    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Column(
         children: [
-          CaptionWidget(title: "About Me", subTitle: introduction),
+          CaptionWidget(
+              title: "About Me",
+              subTitle: model.subTitle ?? "Introduction"),
           getDeviceType(context) == DeviceType.Tablet
               ? _AboutMeContentTablet(
-                  description: description,
-                  buttonText: buttonText,
-                  experiencesList: experiencesList,
-                  onPressed: onPressed,
+                  model: model,
+                  experiencesWidgetList: experiencesWidgetList,
                 )
               : _AboutMeContentPhone(
-                  description: description,
-                  buttonText: buttonText,
-                  onPressed: onPressed,
-                  experiencesList: experiencesList,
+                  model: model,
+                  experiencesWidgetList: experiencesWidgetList,
                 ),
         ],
       ),
@@ -66,16 +57,14 @@ class AboutMeWidget extends StatelessWidget {
 }
 
 class _AboutMeContentPhone extends StatelessWidget {
-  const _AboutMeContentPhone(
-      {super.key,
-      required this.description,
-      required this.buttonText,
-      required this.experiencesList,
-      this.onPressed});
+  const _AboutMeContentPhone({
+    super.key,
+    required this.model,
+    required this.experiencesWidgetList,
+  });
 
-  final String description, buttonText;
-  final List<Widget> experiencesList;
-  final Function()? onPressed;
+  final AboutMeModel model;
+  final List<Widget> experiencesWidgetList;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +73,7 @@ class _AboutMeContentPhone extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height * 0.2,
           child: ClipRRect(
@@ -99,28 +88,33 @@ class _AboutMeContentPhone extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: Text(
-            description,
+            model.description ?? "Description",
             style: context.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
         ),
-        space(height: 16),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
-          child: Container(
-            height: 80,
-            alignment: Alignment.center,
-            child: Row(children: experiencesList),
-          ),
-        ),
+        experiencesWidgetList.isEmpty ? const SizedBox() : space(height: 16),
+        experiencesWidgetList.isEmpty
+            ? const SizedBox()
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+                child: Container(
+                  height: 80,
+                  alignment: Alignment.center,
+                  child: Row(children: experiencesWidgetList),
+                ),
+              ),
         space(height: 32),
         Buttons.roundedButton(
           context,
-          onPressed: onPressed,
-          text: buttonText,
+          onPressed: (model.url == null || model.url!.isEmpty)
+              ? null
+              : () => openUrlDialog(context,
+                  url: model.url ?? "https://duckduckgo.com"),
+          text: model.buttonText ?? "Click Me",
           color: context.colorScheme.onPrimary,
           backgroundColor: context.colorScheme.primary,
-          iconData: Icons.file_download_outlined,
+          iconCodePoint: model.iconCodePoint,
         )
       ],
     );
@@ -128,16 +122,14 @@ class _AboutMeContentPhone extends StatelessWidget {
 }
 
 class _AboutMeContentTablet extends StatelessWidget {
-  const _AboutMeContentTablet(
-      {super.key,
-      required this.description,
-      required this.buttonText,
-      required this.experiencesList,
-      this.onPressed});
+  const _AboutMeContentTablet({
+    super.key,
+    required this.model,
+    required this.experiencesWidgetList,
+  });
 
-  final String description, buttonText;
-  final List<Widget> experiencesList;
-  final Function()? onPressed;
+  final AboutMeModel model;
+  final List<Widget> experiencesWidgetList;
 
   @override
   Widget build(BuildContext context) {
@@ -181,25 +173,29 @@ class _AboutMeContentTablet extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  description,
+                  model.description ?? "Description",
                   style: context.textTheme.bodyLarge,
                   textAlign: TextAlign.justify,
                 ),
               ),
-              const Expanded(child: SizedBox()),
-              Container(
-                height: 80,
-                alignment: Alignment.center,
-                child: Row(children: experiencesList),
-              ),
+              experiencesWidgetList.isEmpty
+                  ? const SizedBox()
+                  : Expanded(child: SizedBox()),
+              experiencesWidgetList.isEmpty
+                  ? const SizedBox()
+                  : Container(
+                      height: 80,
+                      alignment: Alignment.center,
+                      child: Row(children: experiencesWidgetList),
+                    ),
               const Expanded(child: SizedBox()),
               Buttons.roundedButton(
                 context,
-                text: buttonText,
-                onPressed: onPressed,
+                text: model.buttonText ?? "Click Me",
+                onPressed: () => openUrlDialog(context, url: model.url ?? ""),
                 color: context.colorScheme.onPrimary,
                 backgroundColor: context.colorScheme.primary,
-                iconData: Icons.file_download_outlined,
+                iconCodePoint: model.iconCodePoint,
               ),
             ],
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import '../../utils/globals/globals.dart';
 
 class CaptionWidget extends StatelessWidget {
   const CaptionWidget({super.key, required this.title, required this.subTitle});

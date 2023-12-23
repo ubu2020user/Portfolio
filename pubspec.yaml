@@ -17,6 +17,8 @@ dependencies:
   provider: ^6.1.1
   intl: ^0.19.0
   flutter_carousel_widget: ^2.2.0
+  flutter_svg: ^2.0.9
+  url_launcher: ^6.2.2
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +32,7 @@ flutter:
   assets:
     - assets/
     - assets/avatar/
+    - assets/icons/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

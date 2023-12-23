@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/constants.dart';
+import '../utils/globals/constants.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 
 class SideBarWidget extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/buttons.dart';
-import 'package:portfolio/utils/constants.dart';
-import 'package:portfolio/utils/device_type.dart';
+import 'package:portfolio/utils/globals/buttons.dart';
+import '../utils/globals/constants.dart';
+import 'package:portfolio/utils/globals/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import '../../utils/globals/globals.dart';
 
 class FooterWidget extends StatelessWidget {
   const FooterWidget({

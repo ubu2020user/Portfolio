@@ -1,26 +1,22 @@
 import 'package:flutter/cupertino.dart';
-import 'package:portfolio/utils/device_type.dart';
-import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import 'package:portfolio/utils/globals/device_type.dart';
 import 'package:portfolio/utils/provider/preferences_provider.dart';
 import 'package:portfolio/widgets/others/caption_widget.dart';
 import 'package:portfolio/widgets/qualification/education_work_chooser_widget.dart';
+import 'package:portfolio/widgets/qualification/qualifications_model.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/single_qualification_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/globals/globals.dart';
+
 class QualificationsWidget extends StatelessWidget {
   const QualificationsWidget({
     super.key,
-    required this.workList,
-    required this.educationList,
-    this.isItemScrollable = false,
-    this.isDescending = false,
+    required this.model,
   });
 
-  final List<Qualification> workList, educationList;
-
-  final bool isItemScrollable, isDescending;
+  final QualificationsModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +31,13 @@ class QualificationsWidget extends StatelessWidget {
 
     List<Qualification> qualificationList = [];
     if (isEducation) {
-      qualificationList = educationList;
+      qualificationList = model.educationList ?? [];
     }
     if (isWork) {
-      qualificationList = [...qualificationList, ...workList];
+      qualificationList = [...qualificationList, ...model.workList ?? []];
     }
 
-    qualificationList.sort((a, b) => isDescending
+    qualificationList.sort((a, b) => (model.isDescending ?? true)
         ? b.startDate.compareTo(a.startDate)
         : a.startDate.compareTo(b.startDate));
 
@@ -70,10 +66,10 @@ class QualificationsWidget extends StatelessWidget {
               isLast: (index + 1) == qualificationList.length,
               isWork: !(isWork && isEducation)
                   ? null
-                  : workList.contains(qualificationList[index]),
+                  : (model.workList ?? []).contains(qualificationList[index]),
             );
 
-            if (isLeft || !isItemScrollable) {
+            if (isLeft || !(model.isItemScrollable ?? false)) {
               return qualificationWidget;
             } else {
               return SingleChildScrollView(

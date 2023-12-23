@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/buttons.dart';
+import 'package:portfolio/utils/globals/buttons.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import '../../utils/globals/globals.dart';
 
 void showModalBottomSheetSettings(BuildContext context) => showModalBottomSheet(
       context: context,
@@ -14,7 +14,7 @@ void showModalBottomSheetSettings(BuildContext context) => showModalBottomSheet(
               child: Buttons.roundedButton(
                 context,
                 text: "Third Party Notices",
-                iconData: Icons.info_outline,
+                iconCodePoint: Icons.info_outline.codePoint,
                 color: context.colorScheme.onPrimary,
                 backgroundColor: context.colorScheme.primary,
                 onPressed: () {

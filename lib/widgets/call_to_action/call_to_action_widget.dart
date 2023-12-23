@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/buttons.dart';
-import 'package:portfolio/utils/constants.dart';
-import 'package:portfolio/utils/device_type.dart';
+import 'package:portfolio/utils/globals/buttons.dart';
+import '../../utils/globals/constants.dart';
+import 'package:portfolio/utils/globals/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import '../../../utils/globals/globals.dart';
+import '../../utils/globals/open_url_dialog.dart';
+import 'call_to_action_model.dart';
 
 class CallToActionWidget extends StatelessWidget {
   const CallToActionWidget({
     super.key,
-    this.title = "You have a new project?",
-    this.description =
-        "Let's discuss about your project and make it awesome. Contact me now and get a 30% discount on your new project.",
-    this.buttonText = "Contact Me",
-    this.isElevated = false,
-    this.onPressed,
+    required this.model,
   });
 
-  final String title, description, buttonText;
-  final void Function()? onPressed;
-  final bool isElevated;
+  final CallToActionModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +26,29 @@ class CallToActionWidget extends StatelessWidget {
 
     return isDeviceTypePhone(context)
         ? _CallToActionPhone(
-            isElevated: isElevated,
+            isElevated: model.isElevated ?? false,
             photoWidth: photoWidth,
-            description: description,
-            title: title,
-            buttonText: buttonText,
-            onPressed: onPressed,
+            description: model.description ?? "Description",
+            title: model.title ?? "Title",
+            buttonText: model.buttonText ?? "Click Me",
+            onPressed:
+                (model.buttonText != null && model.buttonText!.isNotEmpty)
+                    ? () async => await openUrlDialog(context, url: model.url!)
+                    : null,
+            iconCodePoint: model.iconCodePoint,
             gradient: gradient,
           )
         : _CallToActionTablet(
-            isElevated: isElevated,
+            isElevated: model.isElevated ?? false,
             photoWidth: photoWidth,
-            description: description,
-            title: title,
-            onPressed: onPressed,
-            buttonText: buttonText,
+            description: model.description ?? "Description",
+            title: model.title ?? "Title",
+            buttonText: model.buttonText ?? "Click Me",
+            onPressed:
+                (model.buttonText != null && model.buttonText!.isNotEmpty)
+                    ? () async => await openUrlDialog(context, url: model.url!)
+                    : null,
+            iconCodePoint: model.iconCodePoint,
             gradient: gradient,
           );
   }
@@ -59,6 +62,7 @@ class _CallToActionPhone extends StatelessWidget {
       required this.description,
       required this.title,
       required this.buttonText,
+      this.iconCodePoint,
       required this.onPressed,
       required this.gradient});
 
@@ -69,6 +73,7 @@ class _CallToActionPhone extends StatelessWidget {
   final void Function()? onPressed;
 
   final LinearGradient gradient;
+  final int? iconCodePoint;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +90,8 @@ class _CallToActionPhone extends StatelessWidget {
           children: [
             Text(
               title,
-              style: context.textTheme.titleLarge?.copyWith(color: Colors.white),
+              style:
+                  context.textTheme.titleLarge?.copyWith(color: Colors.white),
             ),
             space(height: 16),
             Text(
@@ -100,6 +106,7 @@ class _CallToActionPhone extends StatelessWidget {
               context,
               text: buttonText,
               onPressed: onPressed,
+              iconCodePoint: iconCodePoint,
             ),
             space(height: 32),
             Container(
@@ -128,6 +135,7 @@ class _CallToActionTablet extends StatelessWidget {
       required this.title,
       required this.buttonText,
       required this.onPressed,
+      this.iconCodePoint,
       required this.gradient});
 
   final bool isElevated;
@@ -137,6 +145,8 @@ class _CallToActionTablet extends StatelessWidget {
   final void Function()? onPressed;
 
   final LinearGradient gradient;
+
+  final int? iconCodePoint;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +194,7 @@ class _CallToActionTablet extends StatelessWidget {
                         context,
                         text: buttonText,
                         onPressed: onPressed,
+                        iconCodePoint: iconCodePoint,
                       ),
                       space(height: 32),
                     ],

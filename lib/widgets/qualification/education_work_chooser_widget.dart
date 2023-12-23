@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import '../../utils/globals/globals.dart';
 
 // TODO Translation / Languages
 

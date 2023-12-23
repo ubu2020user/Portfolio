@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/device_type.dart';
+import 'package:portfolio/utils/globals/device_type.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
-import 'package:portfolio/utils/globals.dart';
+import '../../../utils/globals/globals.dart';
 import 'package:portfolio/widgets/qualification/single_qualification/qualification_model.dart';
 import 'package:intl/intl.dart';
 

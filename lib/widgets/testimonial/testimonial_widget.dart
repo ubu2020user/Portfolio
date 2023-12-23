@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/utils/constants.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 import 'package:portfolio/widgets/testimonial/testimonial_model.dart';
+
+import '../../utils/globals/constants.dart';
 
 class TestimonialWidget extends StatelessWidget {
   const TestimonialWidget({super.key, required this.testimonial});
