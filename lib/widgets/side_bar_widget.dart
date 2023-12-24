@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/globals/constants.dart';
 import 'package:portfolio/utils/extensions/build_extension.dart';
 
@@ -36,17 +37,28 @@ class SideBarWidget extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(
-                          Icons.camera_alt_outlined,
+                        icon: SvgPicture.asset(
+                          "assets/icons/linkedin.svg",
+                          height: 24,
                           color: context.colorScheme.primary,
-                        ),),
+                        ),
+                      ),
                       IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.camera_alt_outlined,
-                            color: context.colorScheme.primary,
-                          )),
-
+                        onPressed: () {},
+                        icon: SvgPicture.asset(
+                          "assets/icons/tiktok.svg",
+                          height: 24,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: SvgPicture.asset(
+                          "assets/icons/website.svg",
+                          height: 24,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
                     ],
                   ),
                 ),
